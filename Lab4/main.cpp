@@ -1,25 +1,48 @@
 #include "RPG.h"
 
+
+void displayStats(RPG player1, RPG player2)
+{
+    printf("%s health: %d, %s health: %d\n", 
+        player1.getName().c_str(), player1.getHealth(), 
+        player2.getName().c_str(), player2.getHealth());
+}
+
+void displayEnd(RPG player1, RPG player2)
+{
+    if (player1.getHealth() != 0)
+    {
+        printf("%s wins!", player1.getName().c_str());
+    }
+    else
+    {
+        printf("%s wins!", player2.getName().c_str());
+    }
+}
+
+void gameLoop(RPG* player1, RPG* player2)
+{
+    while(player1->getHealth() > 0 && player2->getHealth() > 0)
+    {
+        printf("%s's turn\n", player1->getName().c_str());
+        player1->useSkill(player2);
+        printf("-------------------------------------\n");
+
+        printf("%s's turn\n", player2->getName().c_str());
+        player2->useSkill(player1);
+        printf("-------------------------------------\n");
+    }
+}
+
+
 int main() {
 
-    RPG player1;
-    RPG player2("Dave", 10, 10, 12, "mage");
+    RPG p1("Wiz", 70, 45, 15, "mage");
+    RPG p2;
 
-    printf("Player1- name:%s, health:%d, strength:%d, defense:%d, alive:%d\n", 
-        player1.getName().c_str(), player1.getHealth(), 
-        player1.getStrength(), player1.getDefense(), 
-        player1.isAlive());
+    gameLoop(&p1, &p2);
+    displayEnd(p1, p2);
 
-    printf("Player2- name:%s, health:%d, strength:%d, defense:%d, alive:%d\n", 
-        player2.getName().c_str(), player2.getHealth(), 
-        player2.getStrength(), player2.getDefense(), 
-        player2.isAlive());
-    
-    player2.updateHealth(32);
-    printf("Player2 with updated health- name:%s, health:%d, strength:%d, defense:%d, alive:%d\n", 
-        player2.getName().c_str(), player2.getHealth(), 
-        player2.getStrength(), player2.getDefense(), 
-        player2.isAlive());
 
     return 0;
 }

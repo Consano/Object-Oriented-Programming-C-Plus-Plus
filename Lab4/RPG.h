@@ -30,7 +30,7 @@ class RPG {
         int strength;
         int defense;
         string type;
-        string skills[2];
+        string skills[SKILL_SIZE];
 };
 
 

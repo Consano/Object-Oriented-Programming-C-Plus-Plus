@@ -1,5 +1,6 @@
 #include "RPG.h"
 #include <cstdlib>
+#include <iostream>
 
 RPG::RPG()
 {
@@ -14,11 +15,11 @@ RPG::RPG()
 
 RPG::RPG(string n, int h, int s, int d, string t)
 {
-    this->name = n;
-    this->health = h;
-    this->strength = s;
-    this->defense = d;
-    this->type = t;
+    name = n;
+    health = h;
+    strength = s;
+    defense = d;
+    type = t;
 
     this->setSkills();
 }
@@ -54,12 +55,38 @@ void RPG::printAction(string skill, RPG opponent)
 
 void RPG::updateHealth(int newHealth)
 {
-    this->health = newHealth;
+    health = newHealth;
 }
 
-//void RPG::attack(RPG *){}
+void RPG::attack(RPG* opponent)
+{
+    int newHealth = opponent->getHealth() - (strength - opponent->getDefense());
+    opponent->updateHealth(newHealth);
+}
 
-//void RPG::useSkill(RPG *){}
+void RPG::useSkill(RPG* opponent)
+{
+    for (size_t i = 0; i < 2; i++)
+    {
+        printf("Skill %i: %s\n", i, skills[i].c_str());
+    }
+
+    int chosen_skill_index = -1;
+
+    while(chosen_skill_index != 0 && chosen_skill_index != 1)
+    {
+        printf("Choose a skill to use: Enter 0 or 1\n");
+        cin >> chosen_skill_index;
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
+
+    string chosen_skill = skills[chosen_skill_index];
+
+    printAction(chosen_skill, *opponent);
+
+    this->attack(opponent);
+}
 
 bool RPG::isAlive() const
 {
